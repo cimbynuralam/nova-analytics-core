@@ -39,9 +39,9 @@ const FileUploadSection = () => {
     const validTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'text/csv'];
     
     if (validTypes.includes(file.type)) {
-      toast.success(`File ${file.name} berhasil di-upload!`);
+      toast.success(`File ${file.name} uploaded successfully!`);
     } else {
-      toast.error("Format file tidak didukung. Gunakan .xlsx atau .csv");
+      toast.error("File format not supported. Use .xlsx or .csv");
     }
   };
 
@@ -51,10 +51,10 @@ const FileUploadSection = () => {
         <div className="max-w-3xl mx-auto space-y-8">
           <div className="text-center space-y-4 animate-fade-in-up">
             <h2 className="text-4xl font-bold text-foreground">
-              Upload <span className="text-primary">Data Anda</span>
+              Upload <span className="text-primary">Your Data</span>
             </h2>
             <p className="text-muted-foreground text-lg">
-              Drag & drop file atau klik untuk memilih dari komputer Anda
+              Drag & drop your file or click to select from your computer
             </p>
           </div>
 
@@ -78,10 +78,10 @@ const FileUploadSection = () => {
 
                 <div className="space-y-2">
                   <h3 className="text-xl font-semibold text-foreground">
-                    Drop file Anda di sini
+                    Drop your file here
                   </h3>
                   <p className="text-muted-foreground">
-                    atau klik tombol di bawah untuk memilih file
+                    or click the button below to select a file
                   </p>
                 </div>
 
@@ -102,7 +102,7 @@ const FileUploadSection = () => {
                     asChild
                   >
                     <span>
-                      Pilih File
+                      Select File
                     </span>
                   </Button>
                   <input
@@ -115,7 +115,7 @@ const FileUploadSection = () => {
                 </label>
 
                 <p className="text-xs text-muted-foreground">
-                  Maksimal ukuran file: 10MB
+                  Maximum file size: 10MB
                 </p>
               </div>
             </div>
@@ -129,7 +129,7 @@ const FileUploadSection = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-sm text-foreground mb-1">Excel Support</h4>
-                  <p className="text-xs text-muted-foreground">Full support untuk file .xlsx</p>
+                  <p className="text-xs text-muted-foreground">Full support for .xlsx files</p>
                 </div>
               </div>
             </Card>
@@ -141,7 +141,7 @@ const FileUploadSection = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-sm text-foreground mb-1">CSV Support</h4>
-                  <p className="text-xs text-muted-foreground">Format CSV standar</p>
+                  <p className="text-xs text-muted-foreground">Standard CSV format</p>
                 </div>
               </div>
             </Card>
@@ -153,7 +153,7 @@ const FileUploadSection = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-sm text-foreground mb-1">Quick Upload</h4>
-                  <p className="text-xs text-muted-foreground">Proses upload yang cepat</p>
+                  <p className="text-xs text-muted-foreground">Fast upload process</p>
                 </div>
               </div>
             </Card>

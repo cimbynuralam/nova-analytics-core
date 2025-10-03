@@ -24,15 +24,15 @@ const HeroSection = () => {
 
           <h1 className="text-5xl md:text-7xl font-bold leading-tight">
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-glow-pulse">
-              Transformasi Data
+              Transform Data
             </span>
             <br />
-            <span className="text-foreground">Menjadi Insight</span>
+            <span className="text-foreground">Into Insights</span>
           </h1>
 
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Analisis data yang cerdas dan mendalam dengan teknologi AI terdepan. 
-            Dapatkan insight yang actionable dalam hitungan detik.
+            Smart and deep data analysis with cutting-edge AI technology. 
+            Get actionable insights in seconds.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -40,7 +40,7 @@ const HeroSection = () => {
               size="lg"
               className="bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-all shadow-lg shadow-primary/30 group min-w-[200px]"
             >
-              Mulai Sekarang
+              Get Started
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
             <Button 
@@ -48,7 +48,7 @@ const HeroSection = () => {
               variant="outline"
               className="border-primary/30 hover:bg-secondary hover:border-primary/50 transition-all min-w-[200px]"
             >
-              Lihat Demo
+              View Demo
             </Button>
           </div>
 
@@ -56,15 +56,15 @@ const HeroSection = () => {
           <div className="grid grid-cols-3 gap-8 pt-12 max-w-2xl mx-auto">
             <div className="space-y-2">
               <div className="text-3xl font-bold text-primary">99.9%</div>
-              <div className="text-sm text-muted-foreground">Akurasi</div>
+              <div className="text-sm text-muted-foreground">Accuracy</div>
             </div>
             <div className="space-y-2">
               <div className="text-3xl font-bold text-accent">10x</div>
-              <div className="text-sm text-muted-foreground">Lebih Cepat</div>
+              <div className="text-sm text-muted-foreground">Faster</div>
             </div>
             <div className="space-y-2">
               <div className="text-3xl font-bold text-primary">24/7</div>
-              <div className="text-sm text-muted-foreground">Support AI</div>
+              <div className="text-sm text-muted-foreground">AI Support</div>
             </div>
           </div>
         </div>

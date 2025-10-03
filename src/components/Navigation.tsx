@@ -23,7 +23,7 @@ const Navigation = () => {
               Upload
             </Button>
             <Button className="bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-all shadow-lg shadow-primary/25">
-              Mulai Analisis
+              Start Analysis
             </Button>
           </div>
         </div>

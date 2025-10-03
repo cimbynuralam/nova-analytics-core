@@ -3,38 +3,38 @@ import AnalysisTypeCard from "./AnalysisTypeCard";
 
 const analysisTypes = [
   {
-    title: "Analisis Tren",
-    description: "Identifikasi pola dan tren dalam data Anda untuk prediksi yang lebih akurat",
+    title: "Trend Analysis",
+    description: "Identify patterns and trends in your data for more accurate predictions",
     icon: TrendingUp,
     color: "primary",
   },
   {
-    title: "Analisis Distribusi",
-    description: "Pahami bagaimana data Anda terdistribusi dengan visualisasi yang komprehensif",
+    title: "Distribution Analysis",
+    description: "Understand how your data is distributed with comprehensive visualizations",
     icon: PieChart,
     color: "accent",
   },
   {
-    title: "Analisis Komparatif",
-    description: "Bandingkan metrik dan KPI untuk insight yang lebih mendalam",
+    title: "Comparative Analysis",
+    description: "Compare metrics and KPIs for deeper insights",
     icon: BarChart3,
     color: "primary",
   },
   {
-    title: "Analisis Prediktif",
-    description: "Gunakan machine learning untuk memprediksi tren masa depan",
+    title: "Predictive Analysis",
+    description: "Use machine learning to predict future trends",
     icon: LineChart,
     color: "accent",
   },
   {
-    title: "Analisis Segmentasi",
-    description: "Kelompokkan data Anda berdasarkan karakteristik yang relevan",
+    title: "Segmentation Analysis",
+    description: "Group your data based on relevant characteristics",
     icon: Target,
     color: "primary",
   },
   {
-    title: "Analisis Real-time",
-    description: "Monitor dan analisis data secara langsung untuk keputusan cepat",
+    title: "Real-time Analysis",
+    description: "Monitor and analyze data in real-time for quick decisions",
     icon: Zap,
     color: "accent",
   },
@@ -46,10 +46,10 @@ const AnalysisSection = () => {
       <div className="container mx-auto px-6">
         <div className="text-center space-y-4 mb-16 animate-fade-in-up">
           <h2 className="text-4xl font-bold text-foreground">
-            Pilih Jenis <span className="text-primary">Analisis</span>
+            Choose Analysis <span className="text-primary">Type</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Pilih metode analisis yang sesuai dengan kebutuhan bisnis Anda
+            Select the analysis method that fits your business needs
           </p>
         </div>
 

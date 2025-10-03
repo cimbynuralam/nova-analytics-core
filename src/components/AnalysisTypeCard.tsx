@@ -29,7 +29,7 @@ const AnalysisTypeCard = ({ title, description, icon: Icon, color }: AnalysisTyp
 
         <div className="pt-2">
           <span className="text-sm text-primary group-hover:underline">
-            Pelajari lebih lanjut →
+            Learn more →
           </span>
         </div>
       </div>
