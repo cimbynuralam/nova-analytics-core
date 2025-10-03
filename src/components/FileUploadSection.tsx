@@ -3,9 +3,14 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Upload, FileSpreadsheet, FileText } from "lucide-react";
 import { toast } from "sonner";
+import * as XLSX from 'xlsx';
+import Papa from 'papaparse';
+import DataVisualization from "./DataVisualization";
 
 const FileUploadSection = () => {
   const [dragActive, setDragActive] = useState(false);
+  const [parsedData, setParsedData] = useState<any[]>([]);
+  const [fileName, setFileName] = useState<string>("");
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -36,12 +41,51 @@ const FileUploadSection = () => {
 
   const handleFiles = (files: FileList) => {
     const file = files[0];
-    const validTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'text/csv'];
-    
-    if (validTypes.includes(file.type)) {
-      toast.success(`File ${file.name} uploaded successfully!`);
+    if (file && (file.name.endsWith('.xlsx') || file.name.endsWith('.csv'))) {
+      setFileName(file.name);
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          if (file.name.endsWith('.xlsx')) {
+            // Parse Excel file
+            const data = new Uint8Array(e.target?.result as ArrayBuffer);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            const jsonData = XLSX.utils.sheet_to_json(worksheet);
+            setParsedData(jsonData);
+          } else if (file.name.endsWith('.csv')) {
+            // Parse CSV file
+            const text = e.target?.result as string;
+            Papa.parse(text, {
+              header: true,
+              skipEmptyLines: true,
+              complete: (results) => {
+                setParsedData(results.data);
+              }
+            });
+          }
+          
+          toast.success("File uploaded successfully!", {
+            description: `${file.name} is ready for analysis`
+          });
+        } catch (error) {
+          toast.error("Error parsing file", {
+            description: "Please check your file format"
+          });
+        }
+      };
+      
+      if (file.name.endsWith('.xlsx')) {
+        reader.readAsArrayBuffer(file);
+      } else {
+        reader.readAsText(file);
+      }
     } else {
-      toast.error("File format not supported. Use .xlsx or .csv");
+      toast.error("Invalid file type", {
+        description: "Please upload .xlsx or .csv files only"
+      });
     }
   };
 
@@ -158,6 +202,12 @@ const FileUploadSection = () => {
               </div>
             </Card>
           </div>
+
+          {parsedData.length > 0 && (
+            <div className="mt-12">
+              <DataVisualization data={parsedData} fileName={fileName} />
+            </div>
+          )}
         </div>
       </div>
     </section>
