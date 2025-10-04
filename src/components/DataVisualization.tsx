@@ -27,11 +27,15 @@ const DataVisualization = ({ data, fileName }: DataVisualizationProps) => {
 
     setIsGenerating(true);
     try {
+      console.log('Calling generate-insights function...');
       const { data: result, error } = await supabase.functions.invoke('generate-insights', {
         body: { data, fileName }
       });
 
+      console.log('Function response:', { result, error });
+
       if (error) {
+        console.error('Function error:', error);
         throw error;
       }
 
@@ -40,8 +44,8 @@ const DataVisualization = ({ data, fileName }: DataVisualizationProps) => {
     } catch (error) {
       console.error("Error generating insights:", error);
       toast({
-        title: "Error",
-        description: "Failed to generate insights. Please try again.",
+        title: "Cloud Configuration Error",
+        description: "Lovable Cloud is not fully configured. Please refresh the page or contact support.",
         variant: "destructive",
       });
     } finally {
