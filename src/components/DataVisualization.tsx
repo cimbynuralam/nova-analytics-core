@@ -3,6 +3,7 @@ import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, Cart
 import { TrendingUp, PieChart as PieChartIcon, BarChart3, Lightbulb, ListChecks, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface DataVisualizationProps {
   data: any[];
@@ -26,23 +27,14 @@ const DataVisualization = ({ data, fileName }: DataVisualizationProps) => {
 
     setIsGenerating(true);
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-insights`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-          },
-          body: JSON.stringify({ data, fileName }),
-        }
-      );
+      const { data: result, error } = await supabase.functions.invoke('generate-insights', {
+        body: { data, fileName }
+      });
 
-      if (!response.ok) {
-        throw new Error("Failed to generate insights");
+      if (error) {
+        throw error;
       }
 
-      const result = await response.json();
       setInsights(result.insights || []);
       setActionPlan(result.actionPlan || []);
     } catch (error) {
