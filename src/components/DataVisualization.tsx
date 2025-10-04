@@ -1,9 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { TrendingUp, PieChart as PieChartIcon, BarChart3, Lightbulb, ListChecks, Loader2 } from "lucide-react";
-import { useState, useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { TrendingUp, PieChart as PieChartIcon, BarChart3 } from "lucide-react";
 
 interface DataVisualizationProps {
   data: any[];
@@ -13,46 +10,6 @@ interface DataVisualizationProps {
 const COLORS = ['hsl(var(--primary))', 'hsl(var(--accent))', 'hsl(var(--secondary))', '#10b981', '#f59e0b', '#ef4444'];
 
 const DataVisualization = ({ data, fileName }: DataVisualizationProps) => {
-  const [insights, setInsights] = useState<string[]>([]);
-  const [actionPlan, setActionPlan] = useState<string[]>([]);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const { toast } = useToast();
-
-  useEffect(() => {
-    generateInsights();
-  }, [data, fileName]);
-
-  const generateInsights = async () => {
-    if (!data || data.length === 0) return;
-
-    setIsGenerating(true);
-    try {
-      console.log('Calling generate-insights function...');
-      const { data: result, error } = await supabase.functions.invoke('generate-insights', {
-        body: { data, fileName }
-      });
-
-      console.log('Function response:', { result, error });
-
-      if (error) {
-        console.error('Function error:', error);
-        throw error;
-      }
-
-      setInsights(result.insights || []);
-      setActionPlan(result.actionPlan || []);
-    } catch (error) {
-      console.error("Error generating insights:", error);
-      toast({
-        title: "Cloud Configuration Error",
-        description: "Lovable Cloud is not fully configured. Please refresh the page or contact support.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
   if (!data || data.length === 0) return null;
 
   // Get numeric columns for visualization
@@ -107,63 +64,6 @@ const DataVisualization = ({ data, fileName }: DataVisualizationProps) => {
             </CardContent>
           </Card>
         ))}
-      </div>
-
-      {/* AI Insights and Action Plan */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-card/50 backdrop-blur border-primary/20">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Lightbulb className="w-5 h-5 text-primary" />
-              Key Insights
-            </CardTitle>
-            <CardDescription>AI-generated analysis of your data</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {isGenerating ? (
-              <div className="flex items-center justify-center py-8">
-                <Loader2 className="w-6 h-6 animate-spin text-primary" />
-                <span className="ml-2 text-muted-foreground">Generating insights...</span>
-              </div>
-            ) : (
-              <ul className="space-y-3">
-                {insights.map((insight, idx) => (
-                  <li key={idx} className="flex gap-2">
-                    <span className="text-primary font-semibold">{idx + 1}.</span>
-                    <span className="text-sm">{insight}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card className="bg-card/50 backdrop-blur border-primary/20">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <ListChecks className="w-5 h-5 text-accent" />
-              Action Plan Recommendations
-            </CardTitle>
-            <CardDescription>Suggested next steps based on insights</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {isGenerating ? (
-              <div className="flex items-center justify-center py-8">
-                <Loader2 className="w-6 h-6 animate-spin text-primary" />
-                <span className="ml-2 text-muted-foreground">Generating recommendations...</span>
-              </div>
-            ) : (
-              <ul className="space-y-3">
-                {actionPlan.map((action, idx) => (
-                  <li key={idx} className="flex gap-2">
-                    <span className="text-accent font-semibold">{idx + 1}.</span>
-                    <span className="text-sm">{action}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </CardContent>
-        </Card>
       </div>
 
       {/* Charts */}
