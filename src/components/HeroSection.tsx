@@ -38,6 +38,9 @@ const HeroSection = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Button 
               size="lg"
+              onClick={() => {
+                document.getElementById('upload-section')?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-all shadow-lg shadow-primary/30 group min-w-[200px]"
             >
               Get Started
@@ -50,22 +53,6 @@ const HeroSection = () => {
             >
               View Demo
             </Button>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 pt-12 max-w-2xl mx-auto">
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-primary">99.9%</div>
-              <div className="text-sm text-muted-foreground">Accuracy</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-accent">10x</div>
-              <div className="text-sm text-muted-foreground">Faster</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-primary">24/7</div>
-              <div className="text-sm text-muted-foreground">AI Support</div>
-            </div>
           </div>
         </div>
       </div>

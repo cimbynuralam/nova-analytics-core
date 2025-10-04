@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { BarChart3, Upload } from "lucide-react";
+import { BarChart3 } from "lucide-react";
 
 const Navigation = () => {
   return (
@@ -18,11 +18,12 @@ const Navigation = () => {
           </Link>
 
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="hover:bg-secondary hover:text-primary transition-all">
-              <Upload className="mr-2 h-4 w-4" />
-              Upload
-            </Button>
-            <Button className="bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-all shadow-lg shadow-primary/25">
+            <Button 
+              onClick={() => {
+                document.getElementById('upload-section')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-all shadow-lg shadow-primary/25"
+            >
               Start Analysis
             </Button>
           </div>

@@ -90,7 +90,7 @@ const FileUploadSection = () => {
   };
 
   return (
-    <section className="py-20 relative">
+    <section id="upload-section" className="py-20 relative">
       <div className="container mx-auto px-6">
         <div className="max-w-3xl mx-auto space-y-8">
           <div className="text-center space-y-4 animate-fade-in-up">
