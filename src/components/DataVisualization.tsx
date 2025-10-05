@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { TrendingUp, PieChart as PieChartIcon, BarChart3, Download } from "lucide-react";
 import { toast } from "sonner";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 interface DataVisualizationProps {
   data: any[];
@@ -50,31 +52,62 @@ const DataVisualization = ({ data, fileName }: DataVisualizationProps) => {
     return item;
   });
 
-  // Download visualization as CSV
-  const downloadVisualization = () => {
+  // Download visualization as PDF
+  const downloadVisualization = async () => {
     try {
-      const headers = Object.keys(data[0]).join(',');
-      const rows = data.map(row => 
-        Object.values(row).map(val => {
-          const str = String(val);
-          return str.includes(',') ? `"${str}"` : str;
-        }).join(',')
-      );
-      const csv = [headers, ...rows].join('\n');
+      toast.loading("Generating PDF...");
       
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${fileName.replace(/\.[^/.]+$/, '')}_analysis.csv`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      let yPosition = 20;
       
-      toast.success("Visualization downloaded successfully");
+      // Add title
+      pdf.setFontSize(20);
+      pdf.setTextColor(0, 150, 220);
+      pdf.text('Data Analysis Results', pageWidth / 2, yPosition, { align: 'center' });
+      
+      yPosition += 10;
+      pdf.setFontSize(12);
+      pdf.setTextColor(100, 100, 100);
+      pdf.text(`File: ${fileName}`, pageWidth / 2, yPosition, { align: 'center' });
+      pdf.text(`${data.length} rows analyzed`, pageWidth / 2, yPosition + 6, { align: 'center' });
+      
+      yPosition += 20;
+      
+      // Capture and add charts
+      const chartElements = document.querySelectorAll('.chart-card');
+      
+      for (let i = 0; i < chartElements.length; i++) {
+        const element = chartElements[i] as HTMLElement;
+        
+        if (yPosition > pageHeight - 80) {
+          pdf.addPage();
+          yPosition = 20;
+        }
+        
+        const canvas = await html2canvas(element, {
+          scale: 2,
+          backgroundColor: '#ffffff',
+          logging: false,
+        });
+        
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = pageWidth - 20;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+        pdf.addImage(imgData, 'PNG', 10, yPosition, imgWidth, imgHeight);
+        yPosition += imgHeight + 10;
+      }
+      
+      // Save PDF
+      pdf.save(`${fileName.replace(/\.[^/.]+$/, '')}_analysis.pdf`);
+      toast.dismiss();
+      toast.success("PDF downloaded successfully");
     } catch (error) {
-      toast.error("Failed to download visualization");
+      toast.dismiss();
+      toast.error("Failed to download PDF");
+      console.error(error);
     }
   };
 
@@ -125,7 +158,7 @@ const DataVisualization = ({ data, fileName }: DataVisualizationProps) => {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Bar Chart */}
-        <Card className="bg-card/50 backdrop-blur border-primary/20">
+        <Card className="chart-card bg-card/50 backdrop-blur border-primary/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <BarChart3 className="w-5 h-5 text-primary" />
@@ -157,7 +190,7 @@ const DataVisualization = ({ data, fileName }: DataVisualizationProps) => {
 
         {/* Line Chart - Only show for time-based data */}
         {isTimeBased() && (
-          <Card className="bg-card/50 backdrop-blur border-primary/20">
+          <Card className="chart-card bg-card/50 backdrop-blur border-primary/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-accent" />
@@ -190,7 +223,7 @@ const DataVisualization = ({ data, fileName }: DataVisualizationProps) => {
 
         {/* Pie Chart */}
         {numericColumns.length > 0 && (
-          <Card className="bg-card/50 backdrop-blur border-primary/20">
+          <Card className="chart-card bg-card/50 backdrop-blur border-primary/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <PieChartIcon className="w-5 h-5 text-secondary" />
@@ -229,7 +262,7 @@ const DataVisualization = ({ data, fileName }: DataVisualizationProps) => {
         )}
 
         {/* Data Table Preview */}
-        <Card className="bg-card/50 backdrop-blur border-primary/20">
+        <Card className="chart-card bg-card/50 backdrop-blur border-primary/20">
           <CardHeader>
             <CardTitle>Data Preview</CardTitle>
             <CardDescription>First 5 rows of your dataset</CardDescription>
