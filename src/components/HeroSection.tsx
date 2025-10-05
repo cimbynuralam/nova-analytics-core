@@ -54,6 +54,22 @@ const HeroSection = () => {
               View Demo
             </Button>
           </div>
+
+          {/* Stats Section */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12 max-w-3xl mx-auto">
+            <div className="text-center space-y-2">
+              <div className="text-3xl font-bold text-primary">99%</div>
+              <div className="text-sm text-muted-foreground">Accurate</div>
+            </div>
+            <div className="text-center space-y-2">
+              <div className="text-3xl font-bold text-primary">10x</div>
+              <div className="text-sm text-muted-foreground">Faster</div>
+            </div>
+            <div className="text-center space-y-2">
+              <div className="text-3xl font-bold text-primary">24/7</div>
+              <div className="text-sm text-muted-foreground">AI Support</div>
+            </div>
+          </div>
         </div>
       </div>
 
